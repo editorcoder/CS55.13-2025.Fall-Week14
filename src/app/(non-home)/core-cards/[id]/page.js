@@ -206,13 +206,6 @@ export default async function CoreCards({ params }) {
             </div>
           )}
 
-          {coreCardData?.lore && (
-            <div>
-              <h4>Lore</h4>
-              <p>{coreCardData.lore}</p>
-            </div>
-          )}
-
           {/* ExtendedLore component with Gemini functionality */}
           <ExtendedLore
             lore={coreCardData.lore}

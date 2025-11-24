@@ -140,13 +140,6 @@ export default async function Territories({ params }) {
             </div>
           )}
 
-          {territoryData?.lore && (
-            <div>
-              <h4>Lore</h4>
-              <p>{territoryData.lore}</p>
-            </div>
-          )}
-
           {/* ExtendedLore component with Gemini functionality */}
           <ExtendedLore
             lore={territoryData.lore}

@@ -174,13 +174,6 @@ export default async function Avatars({ params }) {
             </div>
           )}
 
-          {avatarData?.lore && (
-            <div>
-              <h4>Lore</h4>
-              <p>{avatarData.lore}</p>
-            </div>
-          )}
-
           {/* ExtendedLore component with Gemini functionality */}
           <ExtendedLore
             lore={avatarData.lore}
