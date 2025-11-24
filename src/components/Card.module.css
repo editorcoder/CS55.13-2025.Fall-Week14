@@ -1,0 +1,281 @@
+/*
+editorcoder
+SRJC CS55.13 Fall 2025
+Custom Next.js App
+Card.module.css
+2025-11-04
+*/
+
+/* Card Container Styles */
+.cardDeck {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min-content, var(--spacing-card-width)));
+  justify-content: center;
+  gap: var(--spacing-4xl) var(--spacing-4xl);
+  margin: 0 auto 0;
+}
+
+.cardPage {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  margin: var(--spacing-4xl) auto 0;
+}
+
+/* Base Card Styles - Shared by cardSingle and cardPageCard */
+.cardSingle,
+.cardPageCard {
+  box-shadow: var(--shadow-card);
+  transition: 0.3s;
+  border-radius: var(--radius-md);
+  border: solid var(--spacing-sm) var(--color-lightgray);
+  flex-grow: 0;
+  flex-shrink: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  min-height: var(--spacing-card-height);
+  position: relative;
+  overflow: visible;
+
+  &:hover {
+    box-shadow: var(--shadow-card-hover);
+  }
+}
+
+/* Card Variants */
+.cardSingle {
+  width: 100%;
+
+  & > * {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+}
+
+.cardPageCard {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.cardPageDetails {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+  border: solid 0.05rem var(--color-black);
+  padding: var(--spacing-4xl);
+  overflow-wrap: break-word;
+  background-color: var(--color-antiquewhite);
+  font-size: 0.9rem;
+  box-sizing: border-box;
+
+  & h3 {
+    margin: 0 0 var(--spacing-3xl) 0;
+  }
+
+  & h4 {
+    margin: var(--spacing-3xl) 0 0.4rem 0;
+    text-decoration: underline;
+  }
+
+  & p {
+    margin: 0.2rem 0 0.2rem 0;
+  }
+
+  & .cardPhotoCredit a {
+    color: var(--color-dark);
+    text-decoration: underline;
+  }
+
+  & p.numberOfLikes {
+    border-top: 0.05rem solid var(--color-black);
+    padding-top: 0.4rem;
+    margin: var(--spacing-3xl) 0 0 0;
+  }
+}
+
+/* Standalone numberOfLikes for use outside cardPageDetails */
+.numberOfLikes {
+  border-top: 0.05rem solid var(--color-black);
+  padding-top: 0.4rem;
+  margin: var(--spacing-3xl) 0 0 0;
+}
+
+/* Card Color Classes */
+.cardColorAbility {
+  background-color: var(--color-card-ability);
+}
+
+.cardColorItem {
+  background-color: var(--color-card-item);
+}
+
+.cardColorUnit {
+  background-color: var(--color-card-unit);
+}
+
+/* Card Typography */
+.cardTitle {
+  font-family: var(--font-family-card-title);
+  box-shadow: var(--shadow-card-title);
+  background-color: var(--color-card-title-bg);
+  color: var(--color-gainsboro);
+  border: var(--spacing-xs) solid var(--color-black);
+  border-radius: var(--radius-lg) 0 var(--radius-lg) 0;
+  margin: 0 0 0 2.25rem;
+  padding: var(--spacing-xs) var(--radius-lg) var(--spacing-xs) 1.35rem;
+  font-size: 1.8rem;
+  font-weight: 400;
+  letter-spacing: 0.045rem;
+}
+
+.cardType {
+  font-style: italic;
+  margin: 0.27rem 0 var(--spacing-lg) 2.25rem;
+  padding: var(--spacing-xs) var(--radius-lg);
+  text-align: right;
+}
+
+/* Card Cost & Stats */
+.cardCost {
+  position: absolute;
+  z-index: 2;
+  font-family: var(--font-family-primary);
+  border: solid 0.1rem var(--color-white);
+  background: var(--color-card-cost-bg);
+  color: var(--color-white);
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-card-element);
+  top: var(--spacing-xl);
+  left: var(--spacing-xl);
+  width: var(--spacing-6xl);
+  height: var(--spacing-6xl);
+  border-radius: var(--radius-full);
+  padding: 0;
+  font-size: 1.98rem;
+  line-height: var(--spacing-6xl);
+}
+
+.cardStat {
+  position: absolute;
+  z-index: 2;
+  height: 1.8rem;
+  min-width: 1.8rem;
+  padding: 0 var(--spacing-md) 0 var(--spacing-sm);
+  border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+  border: solid var(--spacing-xs);
+  border-right: none;
+  background: var(--color-card-stat-bg);
+  color: var(--color-white);
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-card-element);
+  right: 0;
+  gap: 0.225rem;
+  font-size: 1.08rem;
+
+  &.cardStatCatnip {
+    bottom: 9rem;
+  }
+
+  &.cardStatDefense {
+    bottom: 6.3rem;
+  }
+
+  &.cardStatAttack {
+    bottom: 3.6rem;
+  }
+
+  &.cardStatLives {
+    bottom: 0.9rem;
+  }
+}
+
+.cardStatIcon {
+  display: inline-block;
+}
+
+/* Stat Border Colors */
+.statColorAbility {
+  border-color: var(--color-card-ability);
+}
+
+.statColorItem {
+  border-color: var(--color-card-item);
+}
+
+.statColorUnit {
+  border-color: var(--color-card-unit);
+}
+
+/* Card Image */
+.cardImageContainer {
+  position: relative;
+  overflow: visible;
+  width: 100%;
+  height: var(--spacing-card-image-height);
+}
+
+.cardImage {
+  object-fit: cover;
+  object-position: top left;
+}
+
+/* Card Body */
+.cardBody {
+  flex: 1;
+  padding: var(--spacing-xl) var(--spacing-2xl);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.cardMechanics {
+  margin: var(--spacing-2xl) 0;
+}
+
+.cardLore {
+  font-style: italic;
+  margin: 0 calc(-1 * var(--spacing-2xl)) 0 calc(-1 * var(--spacing-2xl));
+  padding: var(--spacing-md) var(--spacing-2xl);
+  background-color: var(--color-card-lore-bg);
+  margin-top: auto;
+}
+
+/* Media Queries */
+@media screen and (max-width: 51.99rem) {
+  .cardPageCard {
+    order: 2;
+  }
+
+  .cardPageDetails {
+    order: 1;
+  }
+}
+
+@media screen and (min-width: 52rem) {
+  .cardPage {
+    flex-direction: row;
+    max-width: 48.6rem;
+  }
+
+  .cardPageCard {
+    width: var(--spacing-card-width);
+  }
+
+  .cardPageDetails {
+    width: var(--spacing-card-width);
+  }
+}
+

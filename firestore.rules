@@ -1,0 +1,33 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper function to check if a field value is unchanged
+    // Updated to handle fields that may not be in the update request
+    function unchanged(key) {
+      return !(key in request.resource.data)  // If field not in update, it's unchanged (allowed)
+        || (key in resource.data 
+            && key in request.resource.data 
+            && resource.data[key] == request.resource.data[key]);
+    }
+
+    // Cards collection:
+    //   - Public read access (for server-side fetching and client reads)
+    //   - Authenticated users can update only favoritedBy and numberOfLikes
+    //   - All other fields must remain unchanged (using unchanged() helper)
+    //   - Creates and deletes are not allowed (default)
+    match /cards/{cardId} {
+      allow read;
+      
+      allow update: if request.auth != null
+        // Protect core card fields from being modified
+        && unchanged('title')
+        && unchanged('type')
+        && unchanged('subtype')
+        && unchanged('cost')
+        && unchanged('catnip')
+        && unchanged('defense')
+        && unchanged('imageHome');
+        // Note: favoritedBy and numberOfLikes can be updated by authenticated users
+    }
+  }
+}

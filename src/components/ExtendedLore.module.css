@@ -1,0 +1,27 @@
+/*
+editorcoder
+SRJC CS55.13 Fall 2025
+Custom Next.js App
+ExtendedLore.module.css
+2025-11-04
+*/
+
+/* Extended Lore Button Styles */
+.ExtendedLoreButton {
+  display: block;
+  margin-top: 0.5rem;
+  padding: 0.2rem 0.25rem;
+  cursor: pointer;
+}
+
+.ExtendedLoreButton:disabled {
+  cursor: wait;
+}
+
+/* Lore Button Styles */
+.loreButton {
+  display: block;
+  margin-top: 0.5rem;
+  padding: 0.2rem 0.25rem;
+  cursor: pointer;
+}

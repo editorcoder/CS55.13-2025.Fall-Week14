@@ -1,0 +1,160 @@
+/*
+editorcoder
+SRJC CS55.13 Fall 2025
+Custom Next.js App
+globals.css
+2025-11-04
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Playfair:ital,opsz,wght@0,5..1200,300..900;1,5..1200,300..900&display=swap');
+
+:root {
+  /* Design Tokens - Colors */
+  --color-dark: #4a3f35;
+  --color-light: #efe8dd;
+  --color-card-ability: lightsteelblue;
+  --color-card-item: thistle;
+  --color-card-unit: darkseagreen;
+
+  /* Semantic Colors */
+  --color-white: white;
+  --color-black: black;
+  --color-antiquewhite: antiquewhite;
+  --color-gainsboro: gainsboro;
+  --color-lightgray: lightgray;
+
+  /* Menu Colors */
+  --color-menu-text: rgb(42 72 101);
+  --color-menu-bg: var(--color-white);
+  --color-menu-border: rgb(42 72 101 / 0.25);
+  --color-menu-hover: rgb(42 72 101 / 0.05);
+
+  /* Filter Colors */
+  --color-filter-bg: #f8f5f0;
+  --color-filter-border: #8b7355;
+  --color-filter-text: #5a4a42;
+  --color-filter-text-secondary: #6b5a4a;
+  --color-filter-text-tertiary: #3a2f26;
+  --color-filter-border-light: #c9b8a3;
+  --color-filter-tag-bg: #8b6f5e;
+
+  /* Card Colors - Overlays & Shadows */
+  --color-card-cost-bg: rgba(23, 29, 34, 1);
+  --color-card-title-bg: rgba(0, 0, 0, 0.7);
+  --color-card-shadow: rgba(0, 0, 0, 0.35);
+  --color-card-lore-bg: rgba(0, 0, 0, 0.1);
+  --color-card-stat-bg: rgba(0, 0, 0, 1);
+
+  /* Design Tokens - Typography */
+  --font-family-primary: "Roboto", ui-sans-serif, system-ui, -apple-system;
+  --font-family-card-title: "Oswald", sans-serif;
+
+  /* Spacing */
+  --spacing-xs: 0.09rem;
+  --spacing-sm: 0.18rem;
+  --spacing-md: 0.36rem;
+  --spacing-lg: 0.54rem;
+  --spacing-xl: 0.72rem;
+  --spacing-2xl: 0.9rem;
+  --spacing-3xl: 1rem;
+  --spacing-4xl: 1.8rem;
+  --spacing-5xl: 2.6rem;
+  --spacing-6xl: 2.7rem;
+  --spacing-card-width: 21.6rem;
+  --spacing-card-height: 34.2rem;
+  --spacing-card-image-height: 21.6rem;
+
+  /* Shadows */
+  --shadow-card: 7px 7px 14px 0 rgba(0, 0, 0, 0.4);
+  --shadow-card-hover: 7px 7px 14px 0 rgba(0, 0, 0, 0.6);
+  --shadow-card-element: 0 2px 6px rgba(0, 0, 0, 0.35);
+  --shadow-card-title: 0 2px 6px rgba(0, 0, 0, 0.8);
+  --shadow-menu: 0 0 10px 0 rgb(0 0 0 / 50%);
+  --shadow-filter: 0 2px 7px rgba(0, 0, 0, 0.6);
+  --shadow-button: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+
+  /* Border Radius */
+  --radius-sm: 0.1875rem;
+  --radius-md: 0.28125rem;
+  --radius-lg: 0.45rem;
+  --radius-full: 50%;
+  --radius-pill: 9999px;
+}
+
+/* Reset Styles */
+*,
+article,
+section,
+a {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+/* Body Styles */
+body {
+  font-family: var(--font-family-primary);
+  background-color: var(--color-light);
+}
+
+/* Global Typography */
+h1 {
+  font-family: var(--font-family-card-title);
+  font-variant: small-caps;
+  font-size: 1.6rem;
+  font-weight: 400;
+  letter-spacing: 0.05rem;
+  margin: 0;
+  padding: 0;
+}
+
+/* Link Styles */
+a:hover,
+a:any-link,
+a:active {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Main Styles */
+main {
+  padding: 0 var(--spacing-3xl);
+  margin: var(--spacing-3xl) auto 6rem;
+}
+
+/* Header Styles */
+header {
+  background-color: var(--color-dark);
+  color: var(--color-white);
+  display: flex;
+  justify-content: space-between;
+  padding: 0.8rem;
+  align-items: center;
+
+  & img {
+    height: 2rem;
+  }
+
+  & h1 {
+    display: inline-block;
+    margin-left: 0.625rem;
+  }
+}
+
+/* Footer Styles */
+footer {
+  padding: var(--spacing-2xl);
+  text-align: center;
+  color: var(--color-dark);
+
+  & p {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+/* Input Styles */
+input[type="checkbox"] {
+  accent-color: var(--color-dark);
+}

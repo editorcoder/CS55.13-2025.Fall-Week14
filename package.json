@@ -1,0 +1,39 @@
+{
+  "name": "tc-tcg-card-gallery",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@genkit-ai/googleai": "^1.5.0",
+    "babel-plugin-react-compiler": "^1.0.0",
+    "cookies-next": "^5.1.0",
+    "firebase": "^12.4.0",
+    "firebase-admin": "^13.5.0",
+    "firebase-tools": "14.19.1",
+    "genkit": "^1.5.0",
+    "genkit-cli": "^1.21.0",
+    "next": "^15.5.5",
+    "react": "19.0.0",
+    "react-dom": "19.0.0"
+  },
+  "devDependencies": {
+    "@next/eslint-plugin-next": "15.1.6",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "15.1.6",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.5.3"
+  },
+  "browser": {
+    "fs": false,
+    "os": false,
+    "path": false,
+    "child_process": false,
+    "net": false,
+    "tls": false
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  }
+}

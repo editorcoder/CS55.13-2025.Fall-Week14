@@ -1,0 +1,235 @@
+/*
+editorcoder
+SRJC CS55.13 Fall 2025
+Custom Next.js App
+CardFilters.module.css
+2025-11-04
+*/
+
+/* Filter Styles */
+.filter {
+  margin: 0 auto;
+  padding: 0;
+}
+
+.filter-menu {
+  background-color: var(--color-filter-bg);
+  border-radius: var(--radius-lg);
+  border: 0.05rem solid var(--color-filter-border);
+  box-shadow: var(--shadow-filter);
+  padding: var(--spacing-3xl);
+
+  & summary {
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+  }
+
+  & form {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin-top: 0.5rem;
+  }
+
+  & label {
+    padding: 0.625rem 0;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    color: var(--color-filter-text);
+    font-size: 0.8rem;
+    line-height: var(--spacing-3xl);
+    font-weight: 600;
+  }
+
+  & .card-stats-group {
+    border: var(--radius-sm) solid var(--color-filter-border-light);
+    border-radius: var(--radius-sm);
+    padding: 0.9375rem;
+    margin: 0.625rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+
+    & legend {
+      color: var(--color-filter-text-secondary);
+      font-weight: 600;
+      font-size: 0.875rem;
+      padding: 0 0.5rem;
+    }
+
+    & .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.625rem;
+    }
+  }
+
+  & img {
+    height: 4rem;
+    max-width: 100%;
+  }
+
+  & form div {
+    display: flex;
+    gap: 0.625rem;
+  }
+
+  & select {
+    color: var(--color-filter-text-tertiary);
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 0.625rem;
+    padding-right: 0.625rem;
+    border: 0;
+    border-bottom-width: 0.125rem;
+    border-style: solid;
+    border-color: var(--color-filter-border-light);
+  }
+
+  & h2 {
+    font-weight: 400;
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    margin: 0;
+    padding: 0;
+  }
+
+  & p.sorted-by {
+    color: var(--color-filter-text-secondary);
+    font-weight: 600;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    margin: 0;
+    padding: 0;
+    font-style: italic;
+  }
+}
+
+/* Checkbox Label Styles */
+.checkboxLabel {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Cost Filter Container Styles */
+.costFilterContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+  margin: var(--spacing-3xl) 0;
+
+  & span {
+    font-weight: 500;
+    line-height: 1.25rem;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    background-color: var(--color-filter-tag-bg);
+    border-radius: var(--radius-pill);
+    color: var(--color-white);
+    font-size: 0.95rem;
+  }
+
+  & button {
+    cursor: pointer;
+    margin-left: 0.3125rem;
+    padding: 0.125rem 0.625rem;
+    color: var(--color-white);
+    background-color: transparent;
+    outline: none;
+    border: none;
+    font-size: 0.8rem;
+  }
+}
+
+.filter-footer {
+  & button {
+    box-shadow: var(--shadow-button);
+    text-transform: uppercase;
+    font-size: var(--spacing-3xl);
+    outline: 0;
+    border: 0;
+    padding: 0.4rem;
+    cursor: pointer;
+  }
+
+  & .button--cancel {
+    color: var(--color-dark);
+    background-color: var(--color-white);
+    border-radius: var(--radius-sm);
+  }
+
+  & .button--confirm {
+    background-color: var(--color-dark);
+    color: var(--color-white);
+    border-radius: var(--radius-sm);
+  }
+
+  & menu {
+    display: flex;
+    justify-content: flex-end;
+    padding: var(--spacing-2xl) 0;
+    gap: 1.25rem;
+  }
+}
+
+/* Media Queries */
+@media screen and (min-width: 40rem) {
+  .filter-menu .card-stats-group .checkbox-group {
+    flex-direction: row;
+  }
+}
+
+/* Filter width matches card deck row width */
+/* 1 card: 21.6rem (mobile, default) */
+@media screen and (min-width: 45rem) {
+  .filter {
+    max-width: 45rem;
+    /* 2 cards: (2 × 21.6rem) + (1 × 1.8rem) = 45rem */
+  }
+}
+
+@media screen and (min-width: 68.4rem) {
+  .filter {
+    max-width: 68.4rem;
+    /* 3 cards: (3 × 21.6rem) + (2 × 1.8rem) = 68.4rem */
+  }
+}
+
+@media screen and (min-width: 91.8rem) {
+  .filter {
+    max-width: 91.8rem;
+    /* 4 cards: (4 × 21.6rem) + (3 × 1.8rem) = 91.8rem */
+  }
+}
+
+@media screen and (min-width: 115.2rem) {
+  .filter {
+    max-width: 115.2rem;
+    /* 5 cards: (5 × 21.6rem) + (4 × 1.8rem) = 115.2rem */
+  }
+}
+
+@media screen and (min-width: 138.6rem) {
+  .filter {
+    max-width: 138.6rem;
+    /* 6 cards: (6 × 21.6rem) + (5 × 1.8rem) = 138.6rem */
+  }
+}
+
