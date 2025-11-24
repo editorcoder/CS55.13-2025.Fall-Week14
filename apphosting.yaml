@@ -1,3 +1,0 @@
-env:
-  - variable: GEMINI_API_KEY
-    secret: projects/1072679123259/secrets/GEMINI_API_KEY/versions/1

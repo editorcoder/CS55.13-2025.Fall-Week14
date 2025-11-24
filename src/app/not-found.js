@@ -1,15 +1,17 @@
 /*
 editorcoder
 SRJC CS55.13 Fall 2025
-Custom Next.js App
+Week 14: Assignment 14: Final Headless CMS-Powered App 
 not-found.js
-2025-11-04
+2025-11-22
 */
 
-// Import Link component from Next.js for client-side navigation
+// 404 page
+
+// Import Next.js components
 import Link from 'next/link';
 
-// Export metadata object for the 404 page
+// Metadata for the 404 page
 export const metadata = {
   // Page title for the 404 page
   title: 'Page Not Found',
@@ -17,16 +19,14 @@ export const metadata = {
   description: 'The page you are looking for could not be found',
 };
 
-// Default export: NotFound component for 404 pages
+// Component for 404 page
 export default function NotFound() {
   return (
-    <div className="container text-center mt-5">
-      <h1 className="display-1">404</h1>
-      <h2 className="display-4">Page Not Found</h2>
-      <p className="lead">The page you are looking for could not be found.</p>
-      <Link href="/" className="btn btn-primary btn-lg">
-        Return Home
-      </Link>
+    <div className="page-not-found">
+      <h2>404</h2>
+      <h3>Page Not Found</h3>
+      <p>The page you are looking for could not be found.</p>
+      <button><Link href="/">Return Home</Link></button>
     </div>
   );
 }

@@ -7,9 +7,9 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'firebasestorage.googleapis.com',
+        hostname: 'dev-basic-headless-cms-app.pantheonsite.io',
         port: '',
-        pathname: '/v0/b/**',
+        pathname: '/**',
       },
     ],
   },

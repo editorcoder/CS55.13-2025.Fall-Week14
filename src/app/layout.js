@@ -1,24 +1,23 @@
 /*
 editorcoder
 SRJC CS55.13 Fall 2025
-Custom Next.js App
+Week 14: Assignment 14: Final Headless CMS-Powered App 
 layout.js
-2025-11-04
+2025-11-22
 */
+
+// Root layout
 
 // Import global CSS styles
 import './globals.css';
-// Import Header component
-import Header from '../components/Header';
-// Import Footer component
-import Footer from '../components/Footer';
-// Import server-side authentication function
-import { getAuthenticatedAppForUser } from "../lib/firebase/serverApp";
-// Force next.js to treat this route as server-side rendered
-// Without this line, during the build process, next.js will treat this route as static and build a static HTML file for it
+// Import Header and Footer components
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+
+// Force Next.js to treat this route as server-side rendered
 export const dynamic = "force-dynamic";
 
-// Export metadata object for SEO and page information
+// Default metadata
 export const metadata = {
   // Page title configuration
   title: {
@@ -32,17 +31,18 @@ export const metadata = {
   // Keywords for SEO
   keywords: ['cats', 'trading card game', 'cat game', 'tcg', 'cat', 'cat trading card game', 'cat tcg', 'trading cards'],
   // Author information
-  authors: [{ name: 'editorcoder' }]
+  authors: [{ name: 'editorcoder' }],
+  icons: {
+    icon: 'https://dev-basic-headless-cms-app.pantheonsite.io/wp-content/uploads/2025/11/favicon-32x32-1.png',
+  }
 };
 
-// Default export: Root layout component for the application
+// Root layout component
 export default async function RootLayout({ children }) {
-  // Get authenticated user from server-side Firebase app
-  const { currentUser } = await getAuthenticatedAppForUser();
   return (
     <html lang="en">
       <body>
-        <Header initialUser={currentUser?.toJSON()} />
+        <Header />
         <main>{children}</main>
         <Footer />
       </body>

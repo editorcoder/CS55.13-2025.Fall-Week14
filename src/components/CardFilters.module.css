@@ -1,9 +1,9 @@
 /*
 editorcoder
 SRJC CS55.13 Fall 2025
-Custom Next.js App
+Week 14: Assignment 14: Final Headless CMS-Powered App 
 CardFilters.module.css
-2025-11-04
+2025-11-22
 */
 
 /* Filter Styles */
@@ -109,6 +109,13 @@ CardFilters.module.css
     margin: 0;
     padding: 0;
     font-style: italic;
+    display: inline-block;
+  }
+
+  & .sorted-by-separator {
+    color: var(--color-filter-text-secondary);
+    font-size: 0.875rem;
+    margin: 0 0.25rem;
   }
 }
 
@@ -232,4 +239,3 @@ CardFilters.module.css
     /* 6 cards: (6 × 21.6rem) + (5 × 1.8rem) = 138.6rem */
   }
 }
-

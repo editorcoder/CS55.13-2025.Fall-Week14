@@ -1,32 +1,34 @@
 /*
 editorcoder
 SRJC CS55.13 Fall 2025
-Custom Next.js App
+Week 14: Assignment 14: Final Headless CMS-Powered App 
 ExtendedLore.jsx
-2025-11-04
+2025-11-22
 */
+
+// ExtendedLore component
 
 // Mark this file as a client component
 "use client";
 
-// Import React hooks for state management
+// Import React hooks
 import { useState } from "react";
-// Import server action for generating extended lore
-import { generateExtendedLore } from "../lib/actions/geminiActions";
-// Import CSS module styles
+// Import generateExtendedLore server action
+import { generateExtendedLore } from "@/lib/actions/geminiActions";
+// Import ExtendedLore CSS styles
 import styles from "./ExtendedLore.module.css";
 
 // Skeleton component for displaying loading state while extended lore is being generated
 export function ExtendedLoreSkeleton() {
   return (
-    <div className="cardDetailsLore">
+    <div>
       <h4>Extended Lore</h4>
       <p>✨ Generating extended lore with Gemini...</p>
     </div>
   );
 }
 
-// Default export: Component for displaying lore with Extended/extended lore option
+// Component for displaying lore with Extended/extended lore option
 export default function ExtendedLore({ lore, cardId, mechanics, title }) {
   // State to track whether extended lore is currently displayed
   const [showExtended, setShowExtended] = useState(false);
@@ -79,7 +81,7 @@ export default function ExtendedLore({ lore, cardId, mechanics, title }) {
     }
     
     return (
-      <div className="cardDetailsLore">
+      <div>
         <h4>Extended Lore</h4>
         <p>
           {extendedLore}<br/>
@@ -97,7 +99,7 @@ export default function ExtendedLore({ lore, cardId, mechanics, title }) {
 
   // Render original lore view
   return (
-    <div className="cardDetailsLore">
+    <div>
       <h4>Lore</h4>
       <p>
         {lore}

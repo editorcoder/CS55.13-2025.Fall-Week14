@@ -1,9 +1,9 @@
 /*
 editorcoder
 SRJC CS55.13 Fall 2025
-Custom Next.js App
+Week 14: Assignment 14: Final Headless CMS-Powered App 
 Header.module.css
-2025-11-04
+2025-11-22
 */
 
 .logo {
@@ -23,68 +23,5 @@ Header.module.css
 .logoIcon {
   font-size: 1.6rem;
   font-weight: 500;
-}
-
-.menu {
-  display: inline-block;
-  position: relative;
-  padding: 15px 20px;
-  align-self: stretch;
-
-  & ul {
-    left: calc(-220px * 0.9);
-    color: var(--color-menu-text);
-    background-color: var(--color-menu-bg);
-    box-shadow: var(--shadow-menu);
-    display: none;
-    position: absolute;
-    width: 13.75rem;
-    z-index: 99;
-
-    & li {
-      padding: 10px;
-      border-bottom: 1px solid var(--color-menu-border);
-    }
-
-    & a {
-      font-weight: bold;
-      color: var(--color-menu-text);
-      text-decoration: none;
-    }
-
-    & li:has(a):hover {
-      background-color: var(--color-menu-hover);
-    }
-
-    & a:visited {
-      color: var(--color-menu-text);
-    }
-  }
-
-  &:hover ul {
-    display: block;
-  }
-}
-
-.profile {
-  display: flex;
-
-  & p {
-    display: flex;
-    align-items: center;
-  }
-
-  & a {
-    display: flex;
-    align-items: center;
-  }
-}
-
-.profileImage {
-  border-radius: 100%;
-  border-color: var(--color-white);
-  border-width: 0.125rem;
-  border-style: solid;
-  margin-right: 0.625rem;
 }
 

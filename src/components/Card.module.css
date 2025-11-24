@@ -1,15 +1,18 @@
 /*
 editorcoder
 SRJC CS55.13 Fall 2025
-Custom Next.js App
+Week 14: Assignment 14: Final Headless CMS-Powered App 
 Card.module.css
-2025-11-04
+2025-11-22
 */
 
 /* Card Container Styles */
 .cardDeck {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min-content, var(--spacing-card-width)));
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(min-content, var(--spacing-card-width))
+  );
   justify-content: center;
   gap: var(--spacing-4xl) var(--spacing-4xl);
   margin: 0 auto 0;
@@ -30,7 +33,7 @@ Card.module.css
   box-shadow: var(--shadow-card);
   transition: 0.3s;
   border-radius: var(--radius-md);
-  border: solid var(--spacing-sm) var(--color-lightgray);
+  border: solid var(--spacing-sm);
   flex-grow: 0;
   flex-shrink: 0;
   padding: 0;
@@ -92,18 +95,9 @@ Card.module.css
     text-decoration: underline;
   }
 
-  & p.numberOfLikes {
-    border-top: 0.05rem solid var(--color-black);
-    padding-top: 0.4rem;
-    margin: var(--spacing-3xl) 0 0 0;
+  & .cardDetailsBackToHome {
+    margin-top: 2rem;
   }
-}
-
-/* Standalone numberOfLikes for use outside cardPageDetails */
-.numberOfLikes {
-  border-top: 0.05rem solid var(--color-black);
-  padding-top: 0.4rem;
-  margin: var(--spacing-3xl) 0 0 0;
 }
 
 /* Card Color Classes */
@@ -117,6 +111,27 @@ Card.module.css
 
 .cardColorUnit {
   background-color: var(--color-card-unit);
+}
+
+.cardColorAvatar {
+  background-color: var(--color-card-avatar);
+}
+
+.cardColorTerritory {
+  background-color: var(--color-card-territory);
+}
+
+/* Card Border Color Classes */
+.cardBorderCore {
+  border-color: var(--color-border-core-card);
+}
+
+.cardBorderAvatar {
+  border-color: var(--color-border-avatar);
+}
+
+.cardBorderTerritory {
+  border-color: var(--color-border-territory);
 }
 
 /* Card Typography */
@@ -161,6 +176,29 @@ Card.module.css
   border-radius: var(--radius-full);
   padding: 0;
   font-size: 1.98rem;
+  line-height: var(--spacing-6xl);
+}
+
+/* Card Archetype */
+.cardArchetype {
+  position: absolute;
+  z-index: 2;
+  font-family: var(--font-family-primary);
+  border: solid 0.1rem var(--color-white);
+  background: var(--color-card-cost-bg);
+  color: var(--color-white);
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-card-element);
+  top: var(--spacing-xl);
+  left: var(--spacing-xl);
+  width: var(--spacing-6xl);
+  height: var(--spacing-6xl);
+  border-radius: var(--radius-full);
+  padding: 0;
+  font-size: 1.7rem;
   line-height: var(--spacing-6xl);
 }
 
@@ -278,4 +316,3 @@ Card.module.css
     width: var(--spacing-card-width);
   }
 }
-

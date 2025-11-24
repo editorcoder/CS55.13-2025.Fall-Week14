@@ -1,16 +1,14 @@
 /*
 editorcoder
 SRJC CS55.13 Fall 2025
-Custom Next.js App
+Week 14: Assignment 14: Final Headless CMS-Powered App 
 Tag.jsx
-2025-11-04
+2025-11-22
 */
 
-// A tag is shown under the filter bar when a filter is selected.
-// Tags show what filters have been selected
-// On click, the tag is removed and the filter is reset
+// Card filter tag
 
-// Default export: Tag component for displaying active filters
+// Tag component
 export default function Tag({ type, value, updateField }) {
   return (
     <span className="">
@@ -25,4 +23,3 @@ export default function Tag({ type, value, updateField }) {
     </span>
   );
 }
-

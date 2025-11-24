@@ -1,21 +1,21 @@
 /*
 editorcoder
 SRJC CS55.13 Fall 2025
-Custom Next.js App
+Week 14: Assignment 14: Final Headless CMS-Powered App 
 CardFilters.jsx
-2025-11-04
+2025-11-22
 */
+
+// Filters for Card Listings
 
 // Mark this file as a client component
 "use client";
 
-// The filters shown on the card listings page
-
-// Import Tag component for displaying filter tags
+// Import React hooks
+import { useState } from "react";
+// Import Tag component
 import Tag from "./Tag.jsx";
-// Import custom hook to get current user
-import { useUser } from "../lib/getUser";
-// Import CSS module styles
+// Import CardFilters CSS styles
 import styles from "./CardFilters.module.css";
 
 // Component for select dropdown filter
@@ -63,7 +63,7 @@ function CostFilter({ costMin, costMax, onChange }) {
           <span>Min: {costMin}</span>
           <input
             type="range"
-            min="0"
+            min="1"
             max="6"
             value={costMin}
             onChange={(e) => {
@@ -84,7 +84,7 @@ function CostFilter({ costMin, costMax, onChange }) {
           <span>Max: {costMax}</span>
           <input
             type="range"
-            min="0"
+            min="1"
             max="6"
             value={costMax}
             onChange={(e) => {
@@ -106,20 +106,103 @@ function CostFilter({ costMin, costMax, onChange }) {
   );
 }
 
-// Default export: Main card filters component
-export default function CardFilters({ filters, setFilters, uniqueTypes }) {
-  // Get current user from custom hook
-  const user = useUser();
+// Component for level range filter with sliders
+function LevelFilter({ levelMin, levelMax, onChange }) {
+  return (
+    <div>
+      <label>
+        Level:
+        <div className={styles.costFilterContainer}>
+          <span>Min: {levelMin}</span>
+          <input
+            type="range"
+            min="2"
+            max="8"
+            value={levelMin}
+            onChange={(e) => {
+              // Parse new minimum value from input
+              const newMin = parseInt(e.target.value);
+              // If new min exceeds max, adjust max to match new min
+              if (newMin > levelMax) {
+                // Update both min and max to new min value
+                onChange({ levelMin: newMin, levelMax: newMin });
+              } else {
+                // Update only min value
+                onChange({ levelMin: newMin, levelMax });
+              }
+            }}
+          />
+        </div>
+        <div className={styles.costFilterContainer}>
+          <span>Max: {levelMax}</span>
+          <input
+            type="range"
+            min="2"
+            max="8"
+            value={levelMax}
+            onChange={(e) => {
+              // Parse new maximum value from input
+              const newMax = parseInt(e.target.value);
+              // If new max is below min, adjust min to match new max
+              if (newMax < levelMin) {
+                // Update both min and max to new max value
+                onChange({ levelMin: newMax, levelMax: newMax });
+              } else {
+                // Update only max value
+                onChange({ levelMin, levelMax: newMax });
+              }
+            }}
+          />
+        </div>
+      </label>
+    </div>
+  );
+}
+
+// Main card filters component
+export default function CardFilters({ filters, setFilters }) {
+  // State to track whether the filters section is open
+  const [isOpen, setIsOpen] = useState(false);
 
   // Handler for select dropdown changes
   const handleSelectionChange = (event, name) => {
     // Update filters state with new value for specified field
-    setFilters((prevFilters) => ({
-      // Spread previous filters to preserve other values
-      ...prevFilters,
-      // Update the specified filter field with new value
-      [name]: event.target.value,
-    }));
+    setFilters((prevFilters) => {
+      const newValue = event.target.value;
+      const updatedFilters = {
+        // Spread previous filters to preserve other values
+        ...prevFilters,
+        // Update the specified filter field with new value
+        [name]: newValue,
+      };
+
+      // If contentType is changing, reset sort if it's invalid for the new type
+      if (name === "contentType") {
+        const validCoreCardSorts = ["title", "type", "cost"];
+        const validAvatarSorts = ["title", "archetype"];
+        const validTerritorySorts = ["title", "environment", "level"];
+        const currentSort = prevFilters.sort || "title";
+
+        if (
+          newValue === "Core Cards" &&
+          !validCoreCardSorts.includes(currentSort)
+        ) {
+          updatedFilters.sort = "title";
+        } else if (
+          newValue === "Avatars" &&
+          !validAvatarSorts.includes(currentSort)
+        ) {
+          updatedFilters.sort = "title";
+        } else if (
+          newValue === "Territories" &&
+          !validTerritorySorts.includes(currentSort)
+        ) {
+          updatedFilters.sort = "title";
+        }
+      }
+
+      return updatedFilters;
+    });
   };
 
   // Handler for checkbox filter changes
@@ -144,17 +227,6 @@ export default function CardFilters({ filters, setFilters, uniqueTypes }) {
     }));
   };
 
-  // Handler for favorites filter toggle
-  const handleFavoritesChange = () => {
-    // Update filters state, toggling showOnlyFavorites boolean
-    setFilters((prevFilters) => ({
-      // Spread previous filters to preserve other values
-      ...prevFilters,
-      // Toggle showOnlyFavorites boolean value
-      showOnlyFavorites: !prevFilters.showOnlyFavorites,
-    }));
-  };
-
   // Handler for cost range filter changes
   const handleCostChange = ({ costMin, costMax }) => {
     // Update filters state with new cost range values
@@ -164,6 +236,18 @@ export default function CardFilters({ filters, setFilters, uniqueTypes }) {
       // Update cost minimum and maximum values
       costMin,
       costMax,
+    }));
+  };
+
+  // Handler for level range filter changes
+  const handleLevelChange = ({ levelMin, levelMax }) => {
+    // Update filters state with new level range values
+    setFilters((prevFilters) => ({
+      // Spread previous filters to preserve other values
+      ...prevFilters,
+      // Update level minimum and maximum values
+      levelMin,
+      levelMax,
     }));
   };
 
@@ -184,17 +268,37 @@ export default function CardFilters({ filters, setFilters, uniqueTypes }) {
     if (sort === "type") return "Type";
     // Return "Cost" for cost sort
     if (sort === "cost") return "Cost";
+    // Return "Archetype" for archetype sort
+    if (sort === "archetype") return "Archetype";
+    // Return "Environment" for environment sort
+    if (sort === "environment") return "Environment";
+    // Return "Level" for level sort
+    if (sort === "level") return "Level";
     // Return original sort value if not recognized
     return sort;
   };
 
   return (
     <section className={styles.filter}>
-      <details className={styles["filter-menu"]}>
+      <details
+        className={styles["filter-menu"]}
+        open={isOpen}
+        onToggle={(e) => setIsOpen(e.target.open)}
+      >
         <summary>
           <div>
-            <h2>Show Filters</h2>
-            <p className={styles["sorted-by"]}>Sorted by {getSortDisplayText(filters.sort || "title")}</p>
+            <h2>{isOpen ? "Hide Filters" : "Show Filters"}</h2>
+            <p className={styles["sorted-by"]}>
+              {(filters.contentType || "Core Cards") === "Core Cards"
+                ? "Displaying Core Cards"
+                : (filters.contentType || "Core Cards") === "Avatars"
+                  ? "Displaying Avatar Cards"
+                  : "Displaying Territory Cards"}
+            </p>
+            <span className={styles["sorted-by-separator"]}> | </span>
+            <p className={styles["sorted-by"]}>
+              Sorted by {getSortDisplayText(filters.sort || "title")}
+            </p>
           </div>
         </summary>
 
@@ -206,82 +310,171 @@ export default function CardFilters({ filters, setFilters, uniqueTypes }) {
           }}
         >
           <fieldset className={styles["card-stats-group"]}>
-            <legend>Filter by Card Type</legend>
-            <div className={styles["checkbox-group"]}>
-              <FilterCheckbox
-                label="Ability"
-                checked={filters.typeAbility !== false}
-                onChange={() => handleTypeCheckboxChange("typeAbility")}
-                name="typeAbility"
-              />
-
-              <FilterCheckbox
-                label="Item"
-                checked={filters.typeItem !== false}
-                onChange={() => handleTypeCheckboxChange("typeItem")}
-                name="typeItem"
-              />
-
-              <FilterCheckbox
-                label="Unit"
-                checked={filters.typeUnit !== false}
-                onChange={() => handleTypeCheckboxChange("typeUnit")}
-                name="typeUnit"
-              />
-
-              {user && (
-                <FilterCheckbox
-                  label="Show Only Favorites"
-                  checked={filters.showOnlyFavorites === true}
-                  onChange={handleFavoritesChange}
-                  name="showOnlyFavorites"
-                />
-              )}
-            </div>
-          </fieldset>
-
-          <fieldset className={styles["card-stats-group"]}>
-            <legend>Filter by Card Stats</legend>
-            <div className={styles["checkbox-group"]}>
-              <FilterCheckbox
-                label="Has Catnip"
-                checked={filters.hasCatnip === "Yes"}
-                onChange={() => handleCheckboxChange("hasCatnip")}
-                name="hasCatnip"
-              />
-
-              <FilterCheckbox
-                label="Has Defense"
-                checked={filters.hasDefense === "Yes"}
-                onChange={() => handleCheckboxChange("hasDefense")}
-                name="hasDefense"
-              />
-
-              <FilterCheckbox
-                label="Has Attack"
-                checked={filters.hasAttack === "Yes"}
-                onChange={() => handleCheckboxChange("hasAttack")}
-                name="hasAttack"
-              />
-            </div>
-
-            <CostFilter
-              costMin={filters.costMin !== undefined ? filters.costMin : 0}
-              costMax={filters.costMax !== undefined ? filters.costMax : 6}
-              onChange={handleCostChange}
-            />
-          </fieldset>
-
-          <fieldset className={styles["card-stats-group"]}>
-            <legend>Sorting</legend>
+            <legend>Show</legend>
             <FilterSelect
-              label="Sort by"
-              options={["title", "type", "cost"]}
-              value={filters.sort || "title"}
-              onChange={(event) => handleSelectionChange(event, "sort")}
-              name="sort"
+              label="Content Type"
+              options={["Core Cards", "Avatars", "Territories"]}
+              value={filters.contentType || "Core Cards"}
+              onChange={(event) => handleSelectionChange(event, "contentType")}
+              name="contentType"
             />
           </fieldset>
+
+          {(filters.contentType || "Core Cards") === "Core Cards" ? (
+            <>
+              <fieldset className={styles["card-stats-group"]}>
+                <legend>Filter by Core Card Type</legend>
+                <div className={styles["checkbox-group"]}>
+                  <FilterCheckbox
+                    label="Ability"
+                    checked={filters.typeAbility !== false}
+                    onChange={() => handleTypeCheckboxChange("typeAbility")}
+                    name="typeAbility"
+                  />
+
+                  <FilterCheckbox
+                    label="Item"
+                    checked={filters.typeItem !== false}
+                    onChange={() => handleTypeCheckboxChange("typeItem")}
+                    name="typeItem"
+                  />
+
+                  <FilterCheckbox
+                    label="Unit"
+                    checked={filters.typeUnit !== false}
+                    onChange={() => handleTypeCheckboxChange("typeUnit")}
+                    name="typeUnit"
+                  />
+                </div>
+              </fieldset>
+
+              <fieldset className={styles["card-stats-group"]}>
+                <legend>Filter by Core Card Stats</legend>
+                <div className={styles["checkbox-group"]}>
+                  <FilterCheckbox
+                    label="Has Catnip"
+                    checked={filters.hasCatnip === "Yes"}
+                    onChange={() => handleCheckboxChange("hasCatnip")}
+                    name="hasCatnip"
+                  />
+
+                  <FilterCheckbox
+                    label="Has Defense"
+                    checked={filters.hasDefense === "Yes"}
+                    onChange={() => handleCheckboxChange("hasDefense")}
+                    name="hasDefense"
+                  />
+
+                  <FilterCheckbox
+                    label="Has Attack"
+                    checked={filters.hasAttack === "Yes"}
+                    onChange={() => handleCheckboxChange("hasAttack")}
+                    name="hasAttack"
+                  />
+                </div>
+
+                <CostFilter
+                  costMin={filters.costMin !== undefined ? filters.costMin : 1}
+                  costMax={filters.costMax !== undefined ? filters.costMax : 6}
+                  onChange={handleCostChange}
+                />
+              </fieldset>
+
+              <fieldset className={styles["card-stats-group"]}>
+                <legend>Sorting</legend>
+                <FilterSelect
+                  label="Sort by"
+                  options={["title", "type", "cost"]}
+                  value={filters.sort || "title"}
+                  onChange={(event) => handleSelectionChange(event, "sort")}
+                  name="sort"
+                />
+              </fieldset>
+            </>
+          ) : (filters.contentType || "Core Cards") === "Avatars" ? (
+            <>
+              <fieldset className={styles["card-stats-group"]}>
+                <legend>Filter by Avatar Archetype</legend>
+                <div className={styles["checkbox-group"]}>
+                  <FilterCheckbox
+                    label="Indoor"
+                    checked={filters.archetypeIndoor !== false}
+                    onChange={() => handleTypeCheckboxChange("archetypeIndoor")}
+                    name="archetypeIndoor"
+                  />
+
+                  <FilterCheckbox
+                    label="Outdoor"
+                    checked={filters.archetypeOutdoor !== false}
+                    onChange={() =>
+                      handleTypeCheckboxChange("archetypeOutdoor")
+                    }
+                    name="archetypeOutdoor"
+                  />
+                </div>
+              </fieldset>
+
+              <fieldset className={styles["card-stats-group"]}>
+                <legend>Sorting</legend>
+                <FilterSelect
+                  label="Sort by"
+                  options={["title", "archetype"]}
+                  value={filters.sort || "title"}
+                  onChange={(event) => handleSelectionChange(event, "sort")}
+                  name="sort"
+                />
+              </fieldset>
+            </>
+          ) : (
+            <>
+              <fieldset className={styles["card-stats-group"]}>
+                <legend>Filter by Territory Environment</legend>
+                <div className={styles["checkbox-group"]}>
+                  <FilterCheckbox
+                    label="Indoor"
+                    checked={filters.environmentIndoor !== false}
+                    onChange={() =>
+                      handleTypeCheckboxChange("environmentIndoor")
+                    }
+                    name="environmentIndoor"
+                  />
+
+                  <FilterCheckbox
+                    label="Outdoor"
+                    checked={filters.environmentOutdoor !== false}
+                    onChange={() =>
+                      handleTypeCheckboxChange("environmentOutdoor")
+                    }
+                    name="environmentOutdoor"
+                  />
+                </div>
+              </fieldset>
+
+              <fieldset className={styles["card-stats-group"]}>
+                <legend>Filter by Territory Stats</legend>
+                <LevelFilter
+                  levelMin={
+                    filters.levelMin !== undefined ? filters.levelMin : 2
+                  }
+                  levelMax={
+                    filters.levelMax !== undefined ? filters.levelMax : 8
+                  }
+                  onChange={handleLevelChange}
+                />
+              </fieldset>
+
+              <fieldset className={styles["card-stats-group"]}>
+                <legend>Sorting</legend>
+                <FilterSelect
+                  label="Sort by"
+                  options={["title", "environment", "level"]}
+                  value={filters.sort || "title"}
+                  onChange={(event) => handleSelectionChange(event, "sort")}
+                  name="sort"
+                />
+              </fieldset>
+            </>
+          )}
 
           <footer className={styles["filter-footer"]}>
             <menu>
@@ -289,18 +482,37 @@ export default function CardFilters({ filters, setFilters, uniqueTypes }) {
                 className={styles["button--cancel"]}
                 type="reset"
                 onClick={() => {
-                  setFilters({
-                    typeAbility: true,
-                    typeItem: true,
-                    typeUnit: true,
-                    hasCatnip: "",
-                    hasDefense: "",
-                    hasAttack: "",
-                    costMin: 0,
-                    costMax: 6,
-                    sort: "title",
-                    showOnlyFavorites: false,
-                  });
+                  const contentType = filters.contentType || "Core Cards";
+                  if (contentType === "Core Cards") {
+                    setFilters({
+                      contentType: "Core Cards",
+                      typeAbility: true,
+                      typeItem: true,
+                      typeUnit: true,
+                      hasCatnip: "",
+                      hasDefense: "",
+                      hasAttack: "",
+                      costMin: 1,
+                      costMax: 6,
+                      sort: "title",
+                    });
+                  } else if (contentType === "Avatars") {
+                    setFilters({
+                      contentType: "Avatars",
+                      archetypeIndoor: true,
+                      archetypeOutdoor: true,
+                      sort: "title",
+                    });
+                  } else {
+                    setFilters({
+                      contentType: "Territories",
+                      environmentIndoor: true,
+                      environmentOutdoor: true,
+                      levelMin: 2,
+                      levelMax: 8,
+                      sort: "title",
+                    });
+                  }
                 }}
               >
                 Reset
@@ -314,75 +526,182 @@ export default function CardFilters({ filters, setFilters, uniqueTypes }) {
       </details>
 
       <div className={styles.tags}>
-        {/* Handle cost range tag separately */}
-        {(() => {
-          // Get cost minimum from filters, default to 0 if undefined
-          const costMin = filters.costMin !== undefined ? filters.costMin : 0;
-          // Get cost maximum from filters, default to 6 if undefined
-          const costMax = filters.costMax !== undefined ? filters.costMax : 6;
-          // Only show cost tag if not default range (0-6)
-          if (costMin !== 0 || costMax !== 6) {
-            return (
+        {/* Handle cost range tag separately (only for Core Cards) */}
+        {(filters.contentType || "Core Cards") === "Core Cards" &&
+          (() => {
+            // Get cost minimum from filters, default to 1 if undefined
+            const costMin = filters.costMin !== undefined ? filters.costMin : 1;
+            // Get cost maximum from filters, default to 6 if undefined
+            const costMax = filters.costMax !== undefined ? filters.costMax : 6;
+            // Only show cost tag if not default range (1-6)
+            if (costMin !== 1 || costMax !== 6) {
+              return (
+                <Tag
+                  key="cost-range"
+                  type="costRange"
+                  value={`Cost: ${costMin}-${costMax}`}
+                  updateField={(type, value) => {
+                    // Reset cost filters to default range (1-6)
+                    setFilters({ ...filters, costMin: 1, costMax: 6 });
+                  }}
+                />
+              );
+            }
+            // Return null if default range (don't show tag)
+            return null;
+          })()}
+
+        {/* Handle type filter tags separately (for Core Cards) */}
+        {(filters.contentType || "Core Cards") === "Core Cards" &&
+          (() => {
+            // Check if filtering is active (at least one type is disabled)
+            const typeAbility = filters.typeAbility !== false;
+            const typeItem = filters.typeItem !== false;
+            const typeUnit = filters.typeUnit !== false;
+            const isFilteringActive = !typeAbility || !typeItem || !typeUnit;
+
+            // Only show tags when filtering is active
+            if (!isFilteringActive) {
+              return null;
+            }
+
+            // Initialize array to store enabled type tags
+            const typeTags = [];
+            // Add "Ability" to array if typeAbility filter is enabled
+            if (typeAbility) {
+              typeTags.push("Ability");
+            }
+            // Add "Item" to array if typeItem filter is enabled
+            if (typeItem) {
+              typeTags.push("Item");
+            }
+            // Add "Unit" to array if typeUnit filter is enabled
+            if (typeUnit) {
+              typeTags.push("Unit");
+            }
+
+            // Map each enabled type to a Tag component
+            return typeTags.map((typeTag) => (
               <Tag
-                key="cost-range"
-                type="costRange"
-                value={`Cost: ${costMin}-${costMax}`}
+                key={`type-${typeTag}`}
+                type={`type${typeTag}`}
+                value={typeTag}
                 updateField={(type, value) => {
-                  // Reset cost filters to default range (0-6)
-                  setFilters({ ...filters, costMin: 0, costMax: 6 });
+                  // Construct filter key for the type
+                  const typeKey = `type${typeTag}`;
+                  // Disable the type filter by setting it to false
+                  setFilters({ ...filters, [typeKey]: false });
                 }}
               />
-            );
-          }
-          // Return null if default range (don't show tag)
-          return null;
-        })()}
+            ));
+          })()}
 
-        {/* Handle type filter tags separately */}
-        {(() => {
-          // Initialize array to store disabled type tags
-          const typeTags = [];
-          // Add "Ability" to array if typeAbility filter is disabled
-          if (filters.typeAbility === false) {
-            typeTags.push("Ability");
-          }
-          // Add "Item" to array if typeItem filter is disabled
-          if (filters.typeItem === false) {
-            typeTags.push("Item");
-          }
-          // Add "Unit" to array if typeUnit filter is disabled
-          if (filters.typeUnit === false) {
-            typeTags.push("Unit");
-          }
-          
-          // Map each disabled type to a Tag component
-          return typeTags.map((typeTag) => (
-            <Tag
-              key={`type-${typeTag}`}
-              type={`type${typeTag}`}
-              value={typeTag}
-              updateField={(type, value) => {
-                // Construct filter key for the type
-                const typeKey = `type${typeTag}`;
-                // Re-enable the type filter by setting it to true
-                setFilters({ ...filters, [typeKey]: true });
-              }}
-            />
-          ));
-        })()}
+        {/* Handle archetype filter tags separately (for Avatars) */}
+        {(filters.contentType || "Core Cards") === "Avatars" &&
+          (() => {
+            // Check if filtering is active (at least one archetype is disabled)
+            const archetypeIndoor = filters.archetypeIndoor !== false;
+            const archetypeOutdoor = filters.archetypeOutdoor !== false;
+            const isFilteringActive = !archetypeIndoor || !archetypeOutdoor;
 
-        {/* Handle Show Only Favorites tag separately */}
-        {filters.showOnlyFavorites === true && (
-          <Tag
-            key="showOnlyFavorites"
-            type="showOnlyFavorites"
-            value="❤️ Favorite"
-            updateField={(type, value) => {
-              // Disable favorites filter by setting to false
-              setFilters({ ...filters, showOnlyFavorites: false });
-            }}
-          />
-        )}
+            // Only show tags when filtering is active
+            if (!isFilteringActive) {
+              return null;
+            }
+
+            // Initialize array to store enabled archetype tags
+            const archetypeTags = [];
+            // Add "Indoor" to array if archetypeIndoor filter is enabled
+            if (archetypeIndoor) {
+              archetypeTags.push("Indoor");
+            }
+            // Add "Outdoor" to array if archetypeOutdoor filter is enabled
+            if (archetypeOutdoor) {
+              archetypeTags.push("Outdoor");
+            }
+
+            // Map each enabled archetype to a Tag component
+            return archetypeTags.map((archetypeTag) => (
+              <Tag
+                key={`archetype-${archetypeTag}`}
+                type={`archetype${archetypeTag}`}
+                value={archetypeTag}
+                updateField={(type, value) => {
+                  // Construct filter key for the archetype
+                  const archetypeKey = `archetype${archetypeTag}`;
+                  // Disable the archetype filter by setting it to false
+                  setFilters({ ...filters, [archetypeKey]: false });
+                }}
+              />
+            ));
+          })()}
+
+        {/* Handle level range tag separately (only for Territories) */}
+        {(filters.contentType || "Core Cards") === "Territories" &&
+          (() => {
+            // Get level minimum from filters, default to 2 if undefined
+            const levelMin =
+              filters.levelMin !== undefined ? filters.levelMin : 2;
+            // Get level maximum from filters, default to 8 if undefined
+            const levelMax =
+              filters.levelMax !== undefined ? filters.levelMax : 8;
+            // Only show level tag if not default range (2-8)
+            if (levelMin !== 2 || levelMax !== 8) {
+              return (
+                <Tag
+                  key="level-range"
+                  type="levelRange"
+                  value={`Level: ${levelMin}-${levelMax}`}
+                  updateField={(type, value) => {
+                    // Reset level filters to default range (2-8)
+                    setFilters({ ...filters, levelMin: 2, levelMax: 8 });
+                  }}
+                />
+              );
+            }
+            // Return null if default range (don't show tag)
+            return null;
+          })()}
+
+        {/* Handle environment filter tags separately (for Territories) */}
+        {(filters.contentType || "Core Cards") === "Territories" &&
+          (() => {
+            // Check if filtering is active (at least one environment is disabled)
+            const environmentIndoor = filters.environmentIndoor !== false;
+            const environmentOutdoor = filters.environmentOutdoor !== false;
+            const isFilteringActive = !environmentIndoor || !environmentOutdoor;
+
+            // Only show tags when filtering is active
+            if (!isFilteringActive) {
+              return null;
+            }
+
+            // Initialize array to store enabled environment tags
+            const environmentTags = [];
+            // Add "Indoor" to array if environmentIndoor filter is enabled
+            if (environmentIndoor) {
+              environmentTags.push("Indoor");
+            }
+            // Add "Outdoor" to array if environmentOutdoor filter is enabled
+            if (environmentOutdoor) {
+              environmentTags.push("Outdoor");
+            }
+
+            // Map each enabled environment to a Tag component
+            return environmentTags.map((environmentTag) => (
+              <Tag
+                key={`environment-${environmentTag}`}
+                type={`environment${environmentTag}`}
+                value={environmentTag}
+                updateField={(type, value) => {
+                  // Construct filter key for the environment
+                  const environmentKey = `environment${environmentTag}`;
+                  // Disable the environment filter by setting it to false
+                  setFilters({ ...filters, [environmentKey]: false });
+                }}
+              />
+            ));
+          })()}
 
         {/* Handle other filter tags */}
         {Object.entries(filters).map(([type, value]) => {
@@ -394,18 +713,43 @@ export default function CardFilters({ filters, setFilters, uniqueTypes }) {
             return null;
           }
 
-          // Skip cost filters as they're handled separately above
-          if (type === "costMin" || type === "costMax") {
+          // Skip cost filters as they're handled separately above (only for Core Cards)
+          if (
+            (filters.contentType || "Core Cards") === "Core Cards" &&
+            (type === "costMin" || type === "costMax")
+          ) {
+            return null;
+          }
+
+          // Skip level filters as they're handled separately above (only for Territories)
+          if (
+            (filters.contentType || "Core Cards") === "Territories" &&
+            (type === "levelMin" || type === "levelMax")
+          ) {
             return null;
           }
 
           // Skip type filters as they're handled separately above
-          if (type === "typeAbility" || type === "typeItem" || type === "typeUnit") {
+          if (
+            type === "typeAbility" ||
+            type === "typeItem" ||
+            type === "typeUnit"
+          ) {
             return null;
           }
 
-          // Skip showOnlyFavorites as it's handled separately below
-          if (type === "showOnlyFavorites") {
+          // Skip archetype filters as they're handled separately above
+          if (type === "archetypeIndoor" || type === "archetypeOutdoor") {
+            return null;
+          }
+
+          // Skip environment filters as they're handled separately above
+          if (type === "environmentIndoor" || type === "environmentOutdoor") {
+            return null;
+          }
+
+          // Skip contentType as it's not shown as a tag
+          if (type === "contentType") {
             return null;
           }
 
@@ -415,10 +759,10 @@ export default function CardFilters({ filters, setFilters, uniqueTypes }) {
           // Set display text for catnip filter
           if (type === "hasCatnip" && value === "Yes") {
             displayValue = "🌿 Catnip";
-          // Set display text for defense filter
+            // Set display text for defense filter
           } else if (type === "hasDefense" && value === "Yes") {
             displayValue = "🛡️ Defense";
-          // Set display text for attack filter
+            // Set display text for attack filter
           } else if (type === "hasAttack" && value === "Yes") {
             displayValue = "💥 Attack";
           }
@@ -437,4 +781,3 @@ export default function CardFilters({ filters, setFilters, uniqueTypes }) {
     </section>
   );
 }
-

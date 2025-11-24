@@ -1,10 +1,12 @@
 /*
 editorcoder
 SRJC CS55.13 Fall 2025
-Custom Next.js App
+Week 14: Assignment 14: Final Headless CMS-Powered App 
 geminiActions.js
-2025-11-04
+2025-11-22
 */
+
+// Extended lore Server action
 
 // Mark this file as server-only code
 "use server";
@@ -15,19 +17,23 @@ import { gemini20Flash, googleAI } from "@genkit-ai/googleai";
 import { genkit } from "genkit";
 
 // Server action to generate extended lore for a card using Gemini AI
-export async function generateExtendedLore(cardId, originalLore, mechanics, title) {
+export async function generateExtendedLore(
+  cardId,
+  originalLore,
+  mechanics,
+  title
+) {
   try {
     // Validate required fields
     if (!cardId || !originalLore) {
-      throw new Error('Missing required fields: cardId and originalLore');
+      throw new Error("Missing required fields: cardId and originalLore");
     }
 
     // Ensure required API key exists
     if (!process.env.GEMINI_API_KEY) {
-      // Make sure GEMINI_API_KEY environment variable is set:
-      // https://firebase.google.com/docs/genkit/get-started
+      // Make sure GEMINI_API_KEY environment variable is set
       throw new Error(
-        'GEMINI_API_KEY not set. Set it with "firebase apphosting:secrets:set GEMINI_API_KEY"'
+        "GEMINI_API_KEY not set. Please set the GEMINI_API_KEY environment variable."
       );
     }
 
@@ -63,16 +69,16 @@ export async function generateExtendedLore(cardId, originalLore, mechanics, titl
     // Define safety settings to block harmful content at low and above thresholds
     const safetySettings = [
       {
-        category: 'HARM_CATEGORY_HARASSMENT',
-        threshold: 'BLOCK_LOW_AND_ABOVE',
+        category: "HARM_CATEGORY_HARASSMENT",
+        threshold: "BLOCK_LOW_AND_ABOVE",
       },
       {
-        category: 'HARM_CATEGORY_HATE_SPEECH',
-        threshold: 'BLOCK_LOW_AND_ABOVE',
+        category: "HARM_CATEGORY_HATE_SPEECH",
+        threshold: "BLOCK_LOW_AND_ABOVE",
       },
       {
-        category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT',
-        threshold: 'BLOCK_LOW_AND_ABOVE',
+        category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+        threshold: "BLOCK_LOW_AND_ABOVE",
       },
     ];
 
@@ -85,9 +91,8 @@ export async function generateExtendedLore(cardId, originalLore, mechanics, titl
     return text;
   } catch (error) {
     // Log error for debugging
-    console.error('Error generating extended lore:', error);
+    console.error("Error generating extended lore:", error);
     // Re-throw error to be handled by caller
     throw error;
   }
 }
-

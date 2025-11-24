@@ -1,25 +1,32 @@
 /*
 editorcoder
 SRJC CS55.13 Fall 2025
-Custom Next.js App
+Week 14: Assignment 14: Final Headless CMS-Powered App 
 page.js
-2025-11-04
+2025-11-22
 */
 
-//home page
+// Home page
 
-// load data handling functions
-import { getCardInfo } from '../lib/firebase/serverFirestoreData'; // server-side version
-// Import client component for filtering and displaying cards
-import CardListings from '../components/CardListings'; // client component for filtering
+// Import data handling functions
+import { getSortedCoreCardsData } from '@/lib/wordpress/core-cards'; 
+import { getSortedAvatarsData } from '@/lib/wordpress/avatars'; 
+import { getSortedTerritoriesData } from '@/lib/wordpress/territories'; 
+// Import CardListings component
+import CardListings from '@/components/CardListings'; 
+// Import React components
+import { Suspense } from 'react';
 
-// App Router: Convert to async server component with direct data fetching
+// Home component
 export default async function Home({ searchParams }) {
-  // App Router: Direct data fetching from Firestore instead of getStaticProps
-  // Fetch all card data from Firestore
-  const allData = await getCardInfo();
+  // Fetch all core-card, avatar, and territory data from WordPress
+  const allCoreCardsData = await getSortedCoreCardsData();
+  const allAvatarsData = await getSortedAvatarsData();
+  const allTerritoriesData = await getSortedTerritoriesData();
 
   return (
-    <CardListings initialCards={allData} searchParams={searchParams || {}} />
+    <Suspense fallback={<div>Loading...</div>}>
+      <CardListings initialCards={allCoreCardsData} initialAvatars={allAvatarsData} initialTerritories={allTerritoriesData} searchParams={searchParams || {}} />
+    </Suspense>
   );
 }
