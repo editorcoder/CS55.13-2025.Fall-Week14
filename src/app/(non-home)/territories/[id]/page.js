@@ -51,7 +51,6 @@ export async function generateStaticParams() {
 
 // Territories component
 export default async function Territories({ params }) {
-
   // Await params before accessing properties
   // Extract territory ID from route parameters
   const { id } = await params;
@@ -62,7 +61,10 @@ export default async function Territories({ params }) {
   return (
     <>
       <section className={styles.cardPage}>
-        <article id="card-page-card" className={`${styles.cardPageCard} ${styles.cardBorderTerritory} ${styles.cardColorTerritory}`}>
+        <article
+          id="card-page-card"
+          className={`${styles.cardPageCard} ${styles.cardBorderTerritory} ${styles.cardColorTerritory}`}
+        >
           <div className={styles.cardBody}>
             {territoryData?.environment != null && (
               <div
@@ -111,11 +113,20 @@ export default async function Territories({ params }) {
         <article className={styles.cardPageDetails}>
           <div className={styles.cardDetailsHeader}>
             <h3>Card Details:</h3>
-            <a href="#card-page-card" className={styles.showCardLink}>show card</a>
+            <a href="#card-page-card" className={styles.showCardLink}>
+              show card
+            </a>
           </div>
-          <p>Title: <span className={styles.detailsTitle}>{territoryData.title}</span></p>
+          <p>
+            Title:{" "}
+            <span className={styles.detailsTitle}>{territoryData.title}</span>
+          </p>
           <p>Content Type: Territory</p>
-          <p>Environment: {territoryData.environment === "Indoor" && "🏠"} {territoryData.environment === "Outdoor" && "🏞️"}{territoryData.environment}</p>
+          <p>
+            Environment: {territoryData.environment === "Indoor" && "🏠"}{" "}
+            {territoryData.environment === "Outdoor" && "🏞️"}
+            {territoryData.environment}
+          </p>
 
           <h4>Stats</h4>
 
@@ -128,7 +139,6 @@ export default async function Territories({ params }) {
                 Level: {territoryData.level}
               </p>
             )}
-
           </div>
 
           {territoryData?.mechanics != null && (
@@ -158,14 +168,14 @@ export default async function Territories({ params }) {
               </a>
             </p>
           </div>
-
-          <div className={styles.cardDetailsBackToHome}>
-            <Suspense fallback={<p>Loading...</p>}>
-              <BackToHomeLink />
-            </Suspense>
-          </div>
         </article>
       </section>
+
+      <div className={styles.backToHome}>
+        <Suspense fallback={<p>Loading...</p>}>
+          <BackToHomeLink />
+        </Suspense>
+      </div>
     </>
   );
 }

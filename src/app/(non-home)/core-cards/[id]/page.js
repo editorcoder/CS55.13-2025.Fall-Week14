@@ -13,10 +13,7 @@ import Image from "next/image";
 // Import Suspense for client components using useSearchParams
 import { Suspense } from "react";
 // Import data handling functions
-import {
-  getAllCoreCardIds,
-  getCoreCardData,
-} from "@/lib/wordpress/core-cards";
+import { getAllCoreCardIds, getCoreCardData } from "@/lib/wordpress/core-cards";
 // Import BackToHomeLink and ExtendedLore components
 import BackToHomeLink from "@/components/BackToHomeLink";
 import ExtendedLore from "@/components/ExtendedLore";
@@ -24,7 +21,7 @@ import ExtendedLore from "@/components/ExtendedLore";
 import styles from "@/components/Card.module.css";
 
 // Dynamic metadata
-export async function generateMetadata({ params }) { 
+export async function generateMetadata({ params }) {
   // Await params and extract the card ID
   const { id } = await params;
   // Fetch card data for metadata generation
@@ -51,7 +48,6 @@ export async function generateStaticParams() {
 
 // Core Cards component
 export default async function CoreCards({ params }) {
-
   // Await params before accessing properties
   // Extract card ID from route parameters
   const { id } = await params;
@@ -158,9 +154,14 @@ export default async function CoreCards({ params }) {
         <article className={styles.cardPageDetails}>
           <div className={styles.cardDetailsHeader}>
             <h3>Card Details:</h3>
-            <a href="#card-page-card" className={styles.showCardLink}>show card</a>
+            <a href="#card-page-card" className={styles.showCardLink}>
+              show card
+            </a>
           </div>
-          <p>Title: <span className={styles.detailsTitle}>{coreCardData.title}</span></p>
+          <p>
+            Title:{" "}
+            <span className={styles.detailsTitle}>{coreCardData.title}</span>
+          </p>
           <p>Content Type: Core Card</p>
           <p>Type: {coreCardData.type}</p>
           {coreCardData?.subtype != null && (
@@ -237,13 +238,15 @@ export default async function CoreCards({ params }) {
             </p>
           </div>
 
-          <div className={styles.cardDetailsBackToHome}>
-            <Suspense fallback={<p>Loading...</p>}>
-              <BackToHomeLink />
-            </Suspense>
-          </div>
+      
         </article>
       </section>
+
+      <div className={styles.backToHome}>
+        <Suspense fallback={<p>Loading...</p>}>
+          <BackToHomeLink />
+        </Suspense>
+      </div>
     </>
   );
 }
