@@ -53,7 +53,7 @@ function buildFilterQueryString(filters) {
     }
 
     // Handle archetype filters - only add if false (unchecked)
-    if (key === "archetypeIndoor" || key === "archetypeOutdoor") {
+    if (key === "archetypeIndoor" || key === "archetypeOutdoor" || key === "archetypeInOrOut") {
       // Only add to query params if filter is disabled
       if (value === false) {
         queryParams.append(key, "false");
@@ -201,14 +201,16 @@ function filterAndSortAvatars(avatars, filters) {
   // Check if each archetype filter is enabled (not false)
   const archetypeIndoor = filters.archetypeIndoor !== false;
   const archetypeOutdoor = filters.archetypeOutdoor !== false;
+  const archetypeInOrOut = filters.archetypeInOrOut !== false;
 
   // Only filter if not all archetypes are selected (default state)
-  if (!archetypeIndoor || !archetypeOutdoor) {
+  if (!archetypeIndoor || !archetypeOutdoor || !archetypeInOrOut) {
     // Filter avatars based on archetype
     filteredAvatars = filteredAvatars.filter((avatar) => {
       // Return true if avatar archetype matches enabled filter
       if (avatar.archetype === "Indoor") return archetypeIndoor;
       if (avatar.archetype === "Outdoor") return archetypeOutdoor;
+      if (avatar.archetype === "In-or-Out") return archetypeInOrOut;
       return false; // Unknown archetype, exclude it
     });
   }
@@ -362,6 +364,11 @@ export default function CardListings({
           paramsObj.archetypeOutdoor !== undefined
             ? paramsObj.archetypeOutdoor === "true"
             : true,
+        // Parse archetypeInOrOut from search params, default to true if not present
+        archetypeInOrOut:
+          paramsObj.archetypeInOrOut !== undefined
+            ? paramsObj.archetypeInOrOut === "true"
+            : true,
       };
     } else {
       // Territory-specific filters
@@ -457,7 +464,8 @@ export default function CardListings({
       filtersChanged =
         filtersChanged ||
         filters.archetypeIndoor !== filtersFromUrl.archetypeIndoor ||
-        filters.archetypeOutdoor !== filtersFromUrl.archetypeOutdoor;
+        filters.archetypeOutdoor !== filtersFromUrl.archetypeOutdoor ||
+        filters.archetypeInOrOut !== filtersFromUrl.archetypeInOrOut;
     } else if (
       contentType === "Territories" &&
       contentTypeFromUrl === "Territories"
@@ -527,12 +535,13 @@ export default function CardListings({
           // Build query string from current filters
           const queryString = buildFilterQueryString(filters);
           const contentType = filters.contentType || "Core Cards";
-          const isCard = contentType === "Core Cards";
+          const isCoreCard = contentType === "Core Cards";
           const isTerritory = contentType === "Territories";
+          const isAvatar = contentType === "Avatars";
 
           // Build href with query params if they exist
           let itemHref;
-          if (isCard) {
+          if (isCoreCard) {
             itemHref = queryString
               ? `core-cards/${item.id}?${queryString}`
               : `core-cards/${item.id}`;
@@ -556,7 +565,7 @@ export default function CardListings({
 
           // Determine background color class based on content type
           let backgroundColorClass = "";
-          if (isCard && item.type) {
+          if (isCoreCard && item.type) {
             backgroundColorClass = styles[`cardColor${item.type}`];
           } else if (contentType === "Avatars") {
             backgroundColorClass = styles.cardColorAvatar;
@@ -571,7 +580,7 @@ export default function CardListings({
             >
               <Link href={itemHref}>
                 <div className={styles.cardBody}>
-                  {isCard && item.cost != null && (
+                  {isCoreCard && item.cost != null && (
                     <div
                       className={styles.cardCost}
                       aria-label={`Cost ${item.cost}`}
@@ -579,13 +588,14 @@ export default function CardListings({
                       {item.cost}
                     </div>
                   )}
-                  {!isCard && !isTerritory && item.archetype != null && (
+                  {!isCoreCard && !isTerritory && item.archetype != null && (
                     <div
                       className={styles.cardArchetype}
                       aria-label={`Archetype ${item.archetype}`}
                     >
                       {item.archetype === "Indoor" && "🏠"}
-                      {item.archetype === "Outdoor" && "🍂"}
+                      {item.archetype === "Outdoor" && "🏞️"}
+                      {item.archetype === "In-or-Out" && "🏘️"}
                     </div>
                   )}
                   {isTerritory && item.environment != null && (
@@ -594,11 +604,11 @@ export default function CardListings({
                       aria-label={`Environment ${item.environment}`}
                     >
                       {item.environment === "Indoor" && "🏠"}
-                      {item.environment === "Outdoor" && "🍂"}
+                      {item.environment === "Outdoor" && "🏞️"}
                     </div>
                   )}
                   <h3 className={styles.cardTitle}>{item.title}</h3>
-                  {isCard ? (
+                  {isCoreCard ? (
                     <h4 className={styles.cardType}>
                       {item.type}
                       {item?.subtype != null && (
@@ -611,12 +621,20 @@ export default function CardListings({
                   ) : isTerritory ? (
                     <h4 className={styles.cardType}>Territory</h4>
                   ) : (
-                    <h4 className={styles.cardType}>Avatar</h4>
+                    <h4 className={styles.cardType}>
+                      Avatar
+                      {item?.archetype != null && (
+                        <span aria-label={`Archetype ${item.archetype}`}>
+                          {" "}
+                          ({item.archetype})
+                        </span>
+                      )}
+                    </h4>
                   )}
                   <div className={styles.cardImageContainer}>
                     {item?.catnip != null && (
                       <div
-                        className={`${styles.cardStat} ${styles.cardStatCatnip} ${isCard && item.type ? styles[`statColor${item.type}`] : ""}`}
+                        className={`${styles.cardStat} ${styles.cardStatCatnip} ${isCoreCard && item.type ? styles[`statColor${item.type}`] : ""}`}
                         aria-label={`Catnip ${item.catnip}`}
                       >
                         <span
@@ -645,7 +663,7 @@ export default function CardListings({
 
                     {item?.defense != null && (
                       <div
-                        className={`${styles.cardStat} ${styles.cardStatDefense} ${isCard && item.type ? styles[`statColor${item.type}`] : ""}`}
+                        className={`${styles.cardStat} ${styles.cardStatDefense} ${isCoreCard && item.type ? styles[`statColor${item.type}`] : ""}`}
                         aria-label={`Defense ${item.defense}`}
                       >
                         <span
@@ -660,7 +678,7 @@ export default function CardListings({
 
                     {item?.attack != null && (
                       <div
-                        className={`${styles.cardStat} ${styles.cardStatAttack} ${isCard && item.type ? styles[`statColor${item.type}`] : ""}`}
+                        className={`${styles.cardStat} ${styles.cardStatAttack} ${isCoreCard && item.type ? styles[`statColor${item.type}`] : ""}`}
                         aria-label={`Attack ${item.attack}`}
                       >
                         <span
@@ -675,7 +693,7 @@ export default function CardListings({
 
                     {item?.lives != null && (
                       <div
-                        className={`${styles.cardStat} ${styles.cardStatLives} ${isCard && item.type ? styles[`statColor${item.type}`] : ""}`}
+                        className={`${styles.cardStat} ${styles.cardStatLives} ${isCoreCard && item.type ? styles[`statColor${item.type}`] : ""}`}
                         aria-label={`Lives ${item.lives}`}
                       >
                         <span

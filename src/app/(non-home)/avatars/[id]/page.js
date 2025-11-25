@@ -70,10 +70,23 @@ export default async function Avatars({ params }) {
                 aria-label={`Archetype ${avatarData.archetype}`}
               >
                 {avatarData.archetype === "Indoor" && "🏠"}
-                {avatarData.archetype === "Outdoor" && "🍂"}
+                {avatarData.archetype === "Outdoor" && "🏞️"}
+                {avatarData.archetype === "In-or-Out" && "🏘️"}
               </div>
             )}
             <h3 className={styles.cardTitle}>{avatarData.title}</h3>
+            <h4 className={styles.cardType}>
+              Avatar
+              {avatarData?.archetype != null && (
+                <span
+                  aria-hidden="true"
+                  aria-label={`Archetype ${avatarData.archetype}`}
+                >
+                  {" "}
+                  ({avatarData.archetype})
+                </span>
+              )}
+            </h4>
             <div className={styles.cardImageContainer}>
 
 

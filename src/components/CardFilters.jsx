@@ -411,6 +411,15 @@ export default function CardFilters({ filters, setFilters }) {
                     }
                     name="archetypeOutdoor"
                   />
+
+                  <FilterCheckbox
+                    label="In-or-Out"
+                    checked={filters.archetypeInOrOut !== false}
+                    onChange={() =>
+                      handleTypeCheckboxChange("archetypeInOrOut")
+                    }
+                    name="archetypeInOrOut"
+                  />
                 </div>
               </fieldset>
 
@@ -501,6 +510,7 @@ export default function CardFilters({ filters, setFilters }) {
                       contentType: "Avatars",
                       archetypeIndoor: true,
                       archetypeOutdoor: true,
+                      archetypeInOrOut: true,
                       sort: "title",
                     });
                   } else {
@@ -602,7 +612,8 @@ export default function CardFilters({ filters, setFilters }) {
             // Check if filtering is active (at least one archetype is disabled)
             const archetypeIndoor = filters.archetypeIndoor !== false;
             const archetypeOutdoor = filters.archetypeOutdoor !== false;
-            const isFilteringActive = !archetypeIndoor || !archetypeOutdoor;
+            const archetypeInOrOut = filters.archetypeInOrOut !== false;
+            const isFilteringActive = !archetypeIndoor || !archetypeOutdoor || !archetypeInOrOut;
 
             // Only show tags when filtering is active
             if (!isFilteringActive) {
@@ -619,21 +630,36 @@ export default function CardFilters({ filters, setFilters }) {
             if (archetypeOutdoor) {
               archetypeTags.push("Outdoor");
             }
+            // Add "In-or-Out" to array if archetypeInOrOut filter is enabled
+            if (archetypeInOrOut) {
+              archetypeTags.push("In-or-Out");
+            }
 
             // Map each enabled archetype to a Tag component
-            return archetypeTags.map((archetypeTag) => (
-              <Tag
-                key={`archetype-${archetypeTag}`}
-                type={`archetype${archetypeTag}`}
-                value={archetypeTag}
-                updateField={(type, value) => {
-                  // Construct filter key for the archetype
-                  const archetypeKey = `archetype${archetypeTag}`;
-                  // Disable the archetype filter by setting it to false
-                  setFilters({ ...filters, [archetypeKey]: false });
-                }}
-              />
-            ));
+            return archetypeTags.map((archetypeTag) => {
+              // Map display name to filter key
+              let archetypeKey;
+              if (archetypeTag === "Indoor") {
+                archetypeKey = "archetypeIndoor";
+              } else if (archetypeTag === "Outdoor") {
+                archetypeKey = "archetypeOutdoor";
+              } else if (archetypeTag === "In-or-Out") {
+                archetypeKey = "archetypeInOrOut";
+              } else {
+                archetypeKey = `archetype${archetypeTag}`;
+              }
+              return (
+                <Tag
+                  key={`archetype-${archetypeTag}`}
+                  type={archetypeKey}
+                  value={archetypeTag}
+                  updateField={(type, value) => {
+                    // Disable the archetype filter by setting it to false
+                    setFilters({ ...filters, [archetypeKey]: false });
+                  }}
+                />
+              );
+            });
           })()}
 
         {/* Handle level range tag separately (only for Territories) */}
@@ -739,7 +765,7 @@ export default function CardFilters({ filters, setFilters }) {
           }
 
           // Skip archetype filters as they're handled separately above
-          if (type === "archetypeIndoor" || type === "archetypeOutdoor") {
+          if (type === "archetypeIndoor" || type === "archetypeOutdoor" || type === "archetypeInOrOut") {
             return null;
           }
 
