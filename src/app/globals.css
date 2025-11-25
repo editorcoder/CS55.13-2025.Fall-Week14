@@ -3,7 +3,7 @@ editorcoder
 SRJC CS55.13 Fall 2025
 Week 14: Assignment 14: Final Headless CMS-Powered App 
 globals.css
-2025-11-22
+2025-11-24
 */
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
@@ -61,7 +61,7 @@ globals.css
   --spacing-4xl: 1.8rem;
   --spacing-6xl: 2.7rem;
   --spacing-card-width: 21.6rem;
-  --spacing-card-height: 34.2rem;
+  --spacing-card-height: 36rem; /*34.2rem */
   --spacing-card-image-height: 21.6rem;
 
   /* Shadows */
@@ -89,6 +89,11 @@ a {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+}
+
+/* HTML Styles */
+html {
+  scroll-behavior: smooth;
 }
 
 /* Body Styles */
@@ -194,3 +199,4 @@ input[type="checkbox"] {
   }
 
 }
+

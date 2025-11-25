@@ -3,7 +3,7 @@ editorcoder
 SRJC CS55.13 Fall 2025
 Week 14: Assignment 14: Final Headless CMS-Powered App 
 BackToHomeLink.jsx
-2025-11-22
+2025-11-24
 */
 
 // Back to home page link component that preserves filter query parameters
@@ -26,8 +26,6 @@ export default function BackToHomeLink() {
   const homeHref = queryString ? `/?${queryString}` : "/";
 
   return (
-    <p>
-      <Link href={homeHref}>← Back to home</Link>
-    </p>
+      <Link href={homeHref}><button>← Back to home</button></Link>
   );
 }

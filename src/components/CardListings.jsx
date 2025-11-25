@@ -3,7 +3,7 @@ editorcoder
 SRJC CS55.13 Fall 2025
 Week 14: Assignment 14: Final Headless CMS-Powered App 
 CardListings.jsx
-2025-11-22
+2025-11-24
 */
 
 // Card listings component

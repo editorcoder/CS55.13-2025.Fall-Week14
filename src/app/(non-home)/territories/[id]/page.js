@@ -3,7 +3,7 @@ editorcoder
 SRJC CS55.13 Fall 2025
 Week 14: Assignment 14: Final Headless CMS-Powered App 
 page.js
-2025-11-22
+2025-11-24
 */
 
 //dynamic territory page
@@ -62,7 +62,7 @@ export default async function Territories({ params }) {
   return (
     <>
       <section className={styles.cardPage}>
-        <article className={`${styles.cardPageCard} ${styles.cardBorderTerritory} ${styles.cardColorTerritory}`}>
+        <article id="card-page-card" className={`${styles.cardPageCard} ${styles.cardBorderTerritory} ${styles.cardColorTerritory}`}>
           <div className={styles.cardBody}>
             {territoryData?.environment != null && (
               <div
@@ -70,10 +70,11 @@ export default async function Territories({ params }) {
                 aria-label={`Environment ${territoryData.environment}`}
               >
                 {territoryData.environment === "Indoor" && "🏠"}
-                {territoryData.environment === "Outdoor" && "🍂"}
+                {territoryData.environment === "Outdoor" && "🏞️"}
               </div>
             )}
             <h3 className={styles.cardTitle}>{territoryData.title}</h3>
+            <h4 className={styles.cardType}>Territory</h4>
             <div className={styles.cardImageContainer}>
               {territoryData?.level != null && (
                 <div
@@ -108,7 +109,13 @@ export default async function Territories({ params }) {
         </article>
 
         <article className={styles.cardPageDetails}>
-          <h3>Territory Details</h3>
+          <div className={styles.cardDetailsHeader}>
+            <h3>Card Details:</h3>
+            <a href="#card-page-card" className={styles.showCardLink}>show card</a>
+          </div>
+          <p>Title: <span className={styles.detailsTitle}>{territoryData.title}</span></p>
+          <p>Content Type: Territory</p>
+          <p>Environment: {territoryData.environment === "Indoor" && "🏠"} {territoryData.environment === "Outdoor" && "🏞️"}{territoryData.environment}</p>
 
           <h4>Stats</h4>
 
@@ -122,15 +129,6 @@ export default async function Territories({ params }) {
               </p>
             )}
 
-            {territoryData?.environment != null && (
-              <p>
-                <span aria-hidden="true" className={styles.cardStatIcon}>
-                  {territoryData.environment === "Indoor" && "🏠"}{" "}
-                  {territoryData.environment === "Outdoor" && "🍂"}
-                </span>
-                Environment: {territoryData.environment}
-              </p>
-            )}
           </div>
 
           {territoryData?.mechanics != null && (

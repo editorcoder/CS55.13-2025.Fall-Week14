@@ -3,7 +3,7 @@ editorcoder
 SRJC CS55.13 Fall 2025
 Week 14: Assignment 14: Final Headless CMS-Powered App 
 page.js
-2025-11-22
+2025-11-24
 */
 
 //dynamic core card page
@@ -63,6 +63,7 @@ export default async function CoreCards({ params }) {
     <>
       <section className={styles.cardPage}>
         <article
+          id="card-page-card"
           className={`${styles.cardPageCard} ${styles.cardBorderCore} ${styles[`cardColor${coreCardData.type}`]}`}
         >
           <div className={styles.cardBody}>
@@ -155,7 +156,16 @@ export default async function CoreCards({ params }) {
         </article>
 
         <article className={styles.cardPageDetails}>
-          <h3>Card Details</h3>
+          <div className={styles.cardDetailsHeader}>
+            <h3>Card Details:</h3>
+            <a href="#card-page-card" className={styles.showCardLink}>show card</a>
+          </div>
+          <p>Title: <span className={styles.detailsTitle}>{coreCardData.title}</span></p>
+          <p>Content Type: Core Card</p>
+          <p>Type: {coreCardData.type}</p>
+          {coreCardData?.subtype != null && (
+            <p>Subtype: {coreCardData.subtype}</p>
+          )}
 
           <h4>Stats</h4>
 

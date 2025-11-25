@@ -3,7 +3,7 @@ editorcoder
 SRJC CS55.13 Fall 2025
 Week 14: Assignment 14: Final Headless CMS-Powered App 
 page.js
-2025-11-22
+2025-11-24
 */
 
 //dynamic avatar page
@@ -62,7 +62,7 @@ export default async function Avatars({ params }) {
   return (
     <>
       <section className={styles.cardPage}>
-        <article className={`${styles.cardPageCard} ${styles.cardBorderAvatar} ${styles.cardColorAvatar}`}>
+        <article id="card-page-card" className={`${styles.cardPageCard} ${styles.cardBorderAvatar} ${styles.cardColorAvatar}`}>
           <div className={styles.cardBody}>
             {avatarData?.archetype != null && (
               <div
@@ -145,12 +145,17 @@ export default async function Avatars({ params }) {
         </article>
 
         <article className={styles.cardPageDetails}>
-          <h3>Avatar Details</h3>
+          <div className={styles.cardDetailsHeader}>
+            <h3>Card Details:</h3>
+            <a href="#card-page-card" className={styles.showCardLink}>show card</a>
+          </div>
+          <p>Title: <span className={styles.detailsTitle}>{avatarData.title}</span></p>
+          <p>Content Type: Avatar</p>
+          <p>Archetype: {avatarData.archetype === "Indoor" && "🏠"} {avatarData.archetype === "Outdoor" && "🏞️"} {avatarData.archetype === "In-or-Out" && "🏘️"}{avatarData.archetype}</p>
 
           <h4>Stats</h4>
 
           <div>
-
 
             {avatarData?.defense != null && (
               <p>
@@ -208,13 +213,14 @@ export default async function Avatars({ params }) {
             </p>
           </div>
 
-          <div className={styles.cardDetailsBackToHome}>
-            <Suspense fallback={<p>Loading...</p>}>
-              <BackToHomeLink />
-            </Suspense>
-          </div>
         </article>
       </section>
+
+      <div className={styles.backToHome}>
+        <Suspense fallback={<p>Loading...</p>}>
+          <BackToHomeLink />
+        </Suspense>
+      </div>
     </>
   );
 }

@@ -3,16 +3,14 @@ editorcoder
 SRJC CS55.13 Fall 2025
 Week 14: Assignment 14: Final Headless CMS-Powered App 
 Card.module.css
-2025-11-22
+2025-11-24
 */
 
 /* Card Container Styles */
 .cardDeck {
   display: grid;
-  grid-template-columns: repeat(
-    auto-fit,
-    minmax(min-content, var(--spacing-card-width))
-  );
+  grid-template-columns: repeat(auto-fit,
+      minmax(min-content, var(--spacing-card-width)));
   justify-content: center;
   gap: var(--spacing-4xl) var(--spacing-4xl);
   margin: 0 auto 0;
@@ -51,9 +49,10 @@ Card.module.css
 
 /* Card Variants */
 .cardSingle {
-  width: 100%;
+  width: var(--spacing-card-width);
+  height: var(--spacing-card-height);
 
-  & > * {
+  &>* {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -62,8 +61,9 @@ Card.module.css
 }
 
 .cardPageCard {
-  width: 100%;
+  width: var(--spacing-card-width);
   box-sizing: border-box;
+  height: var(--spacing-card-height);
 }
 
 .cardPageDetails {
@@ -76,6 +76,12 @@ Card.module.css
   background-color: var(--color-antiquewhite);
   font-size: 0.9rem;
   box-sizing: border-box;
+
+  & .detailsTitle {
+    font-variant: small-caps;
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
 
   & h3 {
     margin: 0 0 var(--spacing-3xl) 0;
@@ -95,9 +101,31 @@ Card.module.css
     text-decoration: underline;
   }
 
-  & .cardDetailsBackToHome {
-    margin-top: 2rem;
+  & .cardDetailsHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--spacing-3xl);
   }
+
+  & .cardDetailsHeader h3 {
+    margin: 0;
+  }
+
+  & .showCardLink {
+    display: none;
+    color: var(--color-dark);
+    text-decoration: underline;
+    font-size: 0.9rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--radius-sm);
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+  }
+
 }
 
 /* Card Color Classes */
@@ -144,7 +172,7 @@ Card.module.css
   border-radius: var(--radius-lg) 0 var(--radius-lg) 0;
   margin: 0 0 0 2.25rem;
   padding: var(--spacing-xs) var(--radius-lg) var(--spacing-xs) 1.35rem;
-  font-size: 1.8rem;
+  font-size: 1.7rem;
   font-weight: 400;
   letter-spacing: 0.045rem;
 }
@@ -154,6 +182,7 @@ Card.module.css
   margin: 0.27rem 0 var(--spacing-lg) 2.25rem;
   padding: var(--spacing-xs) var(--radius-lg);
   text-align: right;
+  font-size: 1rem;
 }
 
 /* Card Cost & Stats */
@@ -175,7 +204,7 @@ Card.module.css
   height: var(--spacing-6xl);
   border-radius: var(--radius-full);
   padding: 0;
-  font-size: 1.98rem;
+  font-size: 1.8rem;
   line-height: var(--spacing-6xl);
 }
 
@@ -220,7 +249,7 @@ Card.module.css
   box-shadow: var(--shadow-card-element);
   right: 0;
   gap: 0.225rem;
-  font-size: 1.08rem;
+  font-size: 1rem;
 
   &.cardStatCatnip {
     bottom: 9rem;
@@ -281,6 +310,7 @@ Card.module.css
 
 .cardMechanics {
   margin: var(--spacing-2xl) 0;
+  font-size: 0.95rem;
 }
 
 .cardLore {
@@ -289,6 +319,7 @@ Card.module.css
   padding: var(--spacing-md) var(--spacing-2xl);
   background-color: var(--color-card-lore-bg);
   margin-top: auto;
+  font-size: 0.95rem;
 }
 
 /* Media Queries */
@@ -299,6 +330,10 @@ Card.module.css
 
   .cardPageDetails {
     order: 1;
+  }
+
+  .cardPageDetails .showCardLink {
+    display: inline-block;
   }
 }
 
@@ -314,5 +349,50 @@ Card.module.css
 
   .cardPageDetails {
     width: var(--spacing-card-width);
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .cardSingle {
+    width: 100%;
+  }
+
+  .cardPageCard {
+    width: 100%;
+  }
+
+  .cardTitle {
+    font-size: 1.6rem;
+  }
+
+  .cardMechanics {
+
+    font-size: 0.95rem;
+  }
+
+  .cardLore {
+    font-style: italic;
+    margin: 0 calc(-1 * var(--spacing-2xl)) 0 calc(-1 * var(--spacing-2xl));
+    padding: var(--spacing-md) var(--spacing-2xl);
+    background-color: var(--color-card-lore-bg);
+    margin-top: auto;
+    font-size: 0.95rem;
+  }
+}
+
+.backToHome {
+  margin-top: 4rem;
+
+  & button {
+    display: block;
+    margin: 0 auto;
+    background-color: var(--color-dark);
+    color: var(--color-white);
+    border: none;
+    letter-spacing: 0.05rem;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 0.8rem;
   }
 }
