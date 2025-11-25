@@ -11,7 +11,7 @@ import { got } from "got";
 
 // define REST endpoint URLs
 const coreCardDataURL =  // custom endpoint via ACF 
-  "https://dev-basic-headless-cms-app.pantheonsite.io/wp-json/wp/v2/card?per_page=100";
+  "https://dev-basic-headless-cms-app.pantheonsite.io/wp-json/wp/v2/core-card?per_page=100";
 const mediaURL = //  out-of-the-box media endpoint
   "https://dev-basic-headless-cms-app.pantheonsite.io/wp-json/wp/v2/media/";
 
