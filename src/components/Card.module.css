@@ -295,7 +295,7 @@ Card.module.css
 
 .cardImage {
   object-fit: cover;
-  object-position: top left;
+  object-position: top center;
 }
 
 /* Card Body */
