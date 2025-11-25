@@ -76,7 +76,7 @@ export default async function Territories({ params }) {
               </div>
             )}
             <h3 className={styles.cardTitle}>{territoryData.title}</h3>
-            <h4 className={styles.cardType}>Territory</h4>
+            <h4 className={styles.cardType}>Territory ({territoryData.environment})</h4>
             <div className={styles.cardImageContainer}>
               {territoryData?.level != null && (
                 <div

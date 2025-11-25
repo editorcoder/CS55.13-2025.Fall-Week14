@@ -619,7 +619,7 @@ export default function CardListings({
                       )}
                     </h4>
                   ) : isTerritory ? (
-                    <h4 className={styles.cardType}>Territory</h4>
+                    <h4 className={styles.cardType}>Territory ({item.environment})</h4>
                   ) : (
                     <h4 className={styles.cardType}>
                       Avatar
