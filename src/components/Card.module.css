@@ -51,7 +51,7 @@ Card.module.css
 
 /* Card Variants */
 .cardSingle {
-  width: var(--spacing-card-width);
+  width: 100%;
 
   & > * {
     flex: 1;
@@ -62,12 +62,8 @@ Card.module.css
 }
 
 .cardPageCard {
-  width: var(--spacing-card-width);
+  width: 100%;
   box-sizing: border-box;
-  min-height: 0;
-  max-height: var(--spacing-card-height);
-  height: auto;
-  overflow-y: auto;
 }
 
 .cardPageDetails {
@@ -296,10 +292,6 @@ Card.module.css
 }
 
 /* Media Queries */
-
-
-
-
 @media screen and (max-width: 51.99rem) {
   .cardPageCard {
     order: 2;
