@@ -9,8 +9,8 @@
     "genkit-cli": "^1.21.0",
     "got": "^14.6.3",
     "next": "^15.5.5",
-    "react": "19.0.0",
-    "react-dom": "19.0.0"
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "15.1.6",
