@@ -168,7 +168,7 @@ function filterAndSortCoreCards(corecards, filters) {
   // Only filter if not default range (1-6)
   if (costMin !== 1 || costMax !== 6) {
     // Filter core cards within cost range
-    filteredCoreCards = filteredCoreCards.filter((corecardard) => {
+    filteredCoreCards = filteredCoreCards.filter((corecard) => {
       // Get card cost, default to 0 if not present
       const cardCost = corecard.cost || 0;
       // Check if card cost is within range
