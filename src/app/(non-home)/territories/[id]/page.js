@@ -19,7 +19,7 @@ import {
 } from "@/lib/wordpress/territories";
 // Import BackToHomeLink and ExtendedLore components
 import BackToHomeLink from "@/components/BackToHomeLink";
-import ExtendedLore from "@/components/ExtendedLore";
+// import ExtendedLore from "@/components/ExtendedLore"; // Currently deactivated - may be reactivated in a future release
 // Import custom CSS module for card styles
 import styles from "@/components/Card.module.css";
 
@@ -149,12 +149,14 @@ export default async function Territories({ params }) {
           )}
 
           {/* ExtendedLore component with Gemini functionality */}
+          {/* Currently deactivated - may be reactivated in a future release
           <ExtendedLore
             lore={territoryData.lore}
             cardId={id}
             mechanics={territoryData.mechanics}
             title={territoryData.title}
           />
+          */}
 
           <div>
             <h4>Credits</h4>

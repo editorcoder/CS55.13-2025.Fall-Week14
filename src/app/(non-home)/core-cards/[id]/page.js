@@ -16,7 +16,7 @@ import { Suspense } from "react";
 import { getAllCoreCardIds, getCoreCardData } from "@/lib/wordpress/core-cards";
 // Import BackToHomeLink and ExtendedLore components
 import BackToHomeLink from "@/components/BackToHomeLink";
-import ExtendedLore from "@/components/ExtendedLore";
+// import ExtendedLore from "@/components/ExtendedLore"; // Currently deactivated - may be reactivated in a future release
 // Import custom CSS module for card styles
 import styles from "@/components/Card.module.css";
 
@@ -218,12 +218,14 @@ export default async function CoreCards({ params }) {
           )}
 
           {/* ExtendedLore component with Gemini functionality */}
+          {/* Currently deactivated - may be reactivated in a future release
           <ExtendedLore
             lore={coreCardData.lore}
             cardId={id}
             mechanics={coreCardData.mechanics}
             title={coreCardData.title}
           />
+          */}
 
           <div>
             <h4>Credits</h4>

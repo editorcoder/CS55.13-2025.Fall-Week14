@@ -6,6 +6,10 @@ ExtendedLore.jsx
 2025-11-22
 */
 
+// NOTE: This component is currently NOT IN USE.
+// It has been deactivated and may be reactivated in a future release.
+// All references to this component have been commented out in the page.js files.
+
 // ExtendedLore component
 
 // Mark this file as a client component

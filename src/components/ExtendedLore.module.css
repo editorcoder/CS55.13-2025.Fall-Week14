@@ -6,6 +6,10 @@ ExtendedLore.module.css
 2025-11-22
 */
 
+/* NOTE: This stylesheet is currently NOT IN USE.
+   It has been deactivated and may be reactivated in a future release.
+   All references to the ExtendedLore component have been commented out in the page.js files. */
+
 /* Extended Lore Button Styles */
 .ExtendedLoreButton {
   display: block;
